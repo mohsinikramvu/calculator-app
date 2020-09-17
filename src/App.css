@@ -1,0 +1,23 @@
+
+.App .header-navigation {
+  background: #cccccc;
+  padding: 20px;
+  width: 100%;
+  text-align: right;
+  overflow: hidden;
+}
+.App .header-navigation span {
+  font-size: 70px;
+  color: #fff;
+}
+.App .button button {
+  font-size: 40px;
+  width: 100%;
+  border: 1px solid #c1c1c1;
+  outline: none;
+  height: 95px;
+}
+.App .button button:focus {
+  outline: none;
+  box-shadow: none;
+}
