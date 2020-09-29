@@ -1,14 +1,24 @@
 
+/* @font-face {
+  font-family: "LCD Font";
+  src:  local('LCD Font'),
+  url(./fonts/Scientific_Calculator_LCD.ttf) format('truetype');
+  font-weight: 700;
+  font-style: normal;
+} */
+
 .App .header-navigation {
   background: #cccccc;
   padding: 20px;
   width: 100%;
   text-align: right;
+  height: 145px;
   overflow: hidden;
 }
 .App .header-navigation span {
   font-size: 70px;
   color: #fff;
+  /* font-family: "LCD Font"; */
 }
 .App .button button {
   font-size: 40px;

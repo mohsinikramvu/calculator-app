@@ -1,21 +1,30 @@
 import React, { useState } from 'react';
 import './App.css';
-
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
-
+// import './fonts/Scientific_Calculator_LCD.ttf';
+import Button from './components/button';
 
 
 function App() {
 
-
+  const [showButtonValue, setShowButtonValue] = useState("0");
   // const [getButtonValue,setButtonValue] = useState([]);
   // const resultantArr = [...getButtonValue];
 
   // const [getButtonValue,setButtonValue] = useState("");
 
   const getValueFromButton = (buttonValue) => {
-    console.log(buttonValue.value);
+    setShowButtonValue(buttonValue);
+    // console.log(buttonValue.value);
   }
+
+  const valueToClear = () => {
+    setShowButtonValue("0");    
+  }
+
+  // const clearValue = () => {
+  //   setShowButtonValue("0");
+  // }
 
   return (
     <div className="App">
@@ -23,7 +32,7 @@ function App() {
         <div className="row">
           <div className="col-12">
             <div className="header-navigation">
-              <span>Mohsin</span>
+              <span>{showButtonValue}</span>
             </div>
           </div>
         </div>
@@ -32,72 +41,83 @@ function App() {
             <div className="row">
               <div className="col-4">
                 <div className="button">
-                  <button>AC</button>
+                  <Button name="AC" onGetValue={valueToClear}/>
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button>+/-</button>
+                  <Button name="+/-" onGetValue={getValueFromButton}/>
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button>%</button>
+                  <Button name="%" onGetValue={getValueFromButton}/>
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="9" onClick={getValueFromButton}>9</button>
+                  <Button name="9" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="9" onClick={getValueFromButton}>9</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="8" onClick={getValueFromButton}>8</button>
+                  <Button name="8" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="8" onClick={getValueFromButton}>8</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="7" onClick={getValueFromButton}>7</button>
+                  <Button name="7" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="7" onClick={getValueFromButton}>7</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="6" onClick={getValueFromButton}>6</button>
+                  <Button name="6" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="6" onClick={getValueFromButton}>6</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="5" onClick={getValueFromButton}>5</button>
+                  <Button name="5" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="5" onClick={getValueFromButton}>5</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="4" onClick={getValueFromButton}>4</button>
+                  <Button name="4" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="4" onClick={getValueFromButton}>4</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="3" onClick={getValueFromButton}>3</button>
+                  <Button name="3" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="3" onClick={getValueFromButton}>3</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="2" onClick={getValueFromButton}>2</button>
+                  <Button name="2" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="2" onClick={getValueFromButton}>2</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="1" onClick={getValueFromButton}>1</button>
+                  <Button name="1" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="1" onClick={getValueFromButton}>1</button> */}
                 </div>
               </div>
               <div className="col-8">
                 <div className="button">
-                  <button type="button" value="0" onClick={getValueFromButton}>1</button>
+                  <Button name="0" onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="0" onClick={getValueFromButton}>1</button> */}
                 </div>
               </div>
               <div className="col-4">
                 <div className="button">
-                  <button type="button" value="." onClick={getValueFromButton}>.</button>
+                  <Button name="." onGetValue={getValueFromButton} />
+                  {/* <button type="button" name="." onClick={getValueFromButton}>.</button> */}
                 </div>
               </div>
             </div>
@@ -106,27 +126,32 @@ function App() {
             <div className="row">
               <div className="col-12">
                 <div className="button">
-                  <button>/</button>
+                  <Button name="/" onGetValue={getValueFromButton} />
+                  {/* <button>/</button> */}
                 </div>
               </div>
               <div className="col-12">
                 <div className="button">
-                  <button>x</button>
+                  <Button name="x" onGetValue={getValueFromButton} />
+                  {/* <button>x</button> */}
                 </div>
               </div>
               <div className="col-12">
                 <div className="button">
-                  <button>-</button>
+                  <Button name="-" onGetValue={getValueFromButton} />
+                  {/* <button>-</button> */}
                 </div>
               </div>
               <div className="col-12">
                 <div className="button">
-                  <button>+</button>
+                  <Button name="+" onGetValue={getValueFromButton} />
+                  {/* <button>+</button> */}
                 </div>
               </div>
               <div className="col-12">
                 <div className="button">
-                  <button>=</button>
+                  <Button name="=" onGetValue={getValueFromButton} />
+                  {/* <button>=</button> */}
                 </div>
               </div>
             </div>
