@@ -12,8 +12,16 @@
   padding: 20px;
   width: 100%;
   text-align: right;
-  height: 145px;
+  height: auto;
   overflow: hidden;
+}
+.App .header-navigation .top-bar {
+  position: relative;
+}
+.App .header-navigation span.top-value {
+  position: absolute;
+  font-size: 18px;
+  right: 5px;
 }
 .App .header-navigation span {
   font-size: 70px;
