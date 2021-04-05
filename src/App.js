@@ -1,53 +1,96 @@
 import React, {useEffect, useState} from 'react';
 import './App.css';
-import '../node_modules/bootstrap/dist/css/bootstrap.min.css'
+import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Button from './components/button';
 
 
 const App = () => {
 
-  const [showButtonValue, setShowButtonValue] = useState("0");
-  const [getOperatorValue, setOperatorValue] = useState("");
-  const [collectValues, setCollectedValues] = useState([]);
+  const [getButtonValue, setButtonValue] = useState(0);
+  const [getResultantValue, setResultValue] = useState(0);
+  const [getOperatorValue, setOperatorValue] = useState(null);
+  const givenArray = [];
+  const [collectedArray, setCollectedArray] = useState(givenArray);
 
-  useEffect(() => {
-    if (showButtonValue > "0") {
-      setCollectedValues(showButtonValue);
-    } else {
-      setCollectedValues("");
-    }
-    setShowButtonValue("0");
-  },[getOperatorValue]);
   const getValueFromButton = (buttonValue) => {
-    if (showButtonValue > "0") {
-      if (showButtonValue.indexOf('.') !== -1) {
+    if (getButtonValue > 0) {
+      if (getButtonValue.indexOf('.') !== -1) {
         if (buttonValue !== '.') {
-          const getButtonsValue = showButtonValue.concat('',buttonValue);
-          setShowButtonValue(getButtonsValue);
+          const getButtonsValue = getButtonValue.concat('',buttonValue);
+          setButtonValue(getButtonsValue);
         }
       } else {
-        const getButtonsValue = showButtonValue.concat('',buttonValue);
-        setShowButtonValue(getButtonsValue);
+        const getButtonsValue = getButtonValue.concat('',buttonValue);
+        setButtonValue(getButtonsValue);
       }
     } else {
-      setShowButtonValue(buttonValue);
+      setButtonValue(buttonValue);
     }
-  }
+  };
 
   const valueToClear = () => {
-    setCollectedValues([]);
-    setShowButtonValue("0");
-  }
+    setButtonValue(0);
+    setResultValue(0);
+  };
 
   const getOperatorFromButton = (operatorValue) => {
-    setOperatorValue(operatorValue);
-    console.log(operatorValue);
-    // setShowButtonValue("0");
-  }
+    if (collectedArray[collectedArray.length - 1] === getButtonValue) {
+      collectedArray.pop(getButtonValue);
+      // setCollectedArray([]);
+      // setOperatorValue(operatorValue);
+      // setCollectedArray([...collectedArray,getResultantValue]);
+    }
+    // else {
+    //   setCollectedArray([]);
+      setOperatorValue(operatorValue);
+      setCollectedArray([...collectedArray,getButtonValue]);
+    // }
+    setButtonValue(0);
+  };
+
+  useEffect(() => {
+    if (getOperatorValue !== null) {
+      setCollectedArray([...collectedArray, getOperatorValue]);
+      // setButtonValue(0);
+    }
+  },[getOperatorValue]);
 
   const getAnswerFromButton = () => {
-    console.log("Answer");
-  }
+    setCollectedArray([...collectedArray, getButtonValue]);
+    console.log(collectedArray);
+    if (collectedArray.length > 0) {
+      var val1 = null;
+      var val2 = null;
+      var result = null;
+      for(let i = 0; i <= collectedArray.length; i++) {
+        if (collectedArray[i] === '+') {
+          val1 = collectedArray[i - 1];
+          if (val1.indexOf('.') !== -1 && getButtonValue.indexOf('.') !== -1) {
+            val1 = parseInt(val1);
+            val2 = parseInt(getButtonValue);
+          } else {
+            val1 = parseFloat(val1);
+            val2 = parseFloat(getButtonValue);
+          }
+          result = val1 + val2;
+        }
+        // else if (collectedArray[i] === '-') {
+        //   val1 = collectedArray[i - 1];
+        //   if (val1.indexOf('.') !== -1 && getButtonValue.indexOf('.') !== -1) {
+        //     val1 = parseInt(val1);
+        //     val2 = parseInt(getButtonValue);
+        //   } else {
+        //     val1 = parseFloat(val1);
+        //     val2 = parseFloat(getButtonValue);
+        //   }
+        //   result = val1 - val2;
+        // }
+        setResultValue(result);
+      }
+    }
+  };
+
+  // console.log(collectedArray);
 
   return (
       <>
@@ -58,11 +101,14 @@ const App = () => {
                 <div className="header-navigation">
                   <div className="top-bar">
                     {
-                      collectValues.length > 0 ?
-                          <span className="top-value">{collectValues}</span>
-                          : null
+                      collectedArray.length > 0 ?
+                          <span className="top-value">{collectedArray}</span> : null
                     }
-                    <span>{showButtonValue}</span>
+                    {
+                      getResultantValue !== 0 ?
+                          <span>{getResultantValue}</span>
+                          : <span>{getButtonValue}</span>
+                    }
                   </div>
                 </div>
               </div>
