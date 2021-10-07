@@ -28,9 +28,17 @@ const App = () => {
     }
   };
 
+  // useEffect(() => {
+  //   console.log(getButtonValue);
+  //   if (collectedArray.length > 0) {
+  //     setCollectedArray([...collectedArray, getButtonValue]);
+  //   }
+  // },[getOperatorValue]);
+
   const valueToClear = () => {
     setButtonValue(0);
     setResultValue(0);
+    setCollectedArray([]);
   };
 
   const getOperatorFromButton = (operatorValue) => {
@@ -56,39 +64,11 @@ const App = () => {
   },[getOperatorValue]);
 
   const getAnswerFromButton = () => {
-    setCollectedArray([...collectedArray, getButtonValue]);
     console.log(collectedArray);
-    if (collectedArray.length > 0) {
-      var val1 = null;
-      var val2 = null;
-      var result = null;
-      for(let i = 0; i <= collectedArray.length; i++) {
-        if (collectedArray[i] === '+') {
-          val1 = collectedArray[i - 1];
-          if (val1.indexOf('.') !== -1 && getButtonValue.indexOf('.') !== -1) {
-            val1 = parseInt(val1);
-            val2 = parseInt(getButtonValue);
-          } else {
-            val1 = parseFloat(val1);
-            val2 = parseFloat(getButtonValue);
-          }
-          result = val1 + val2;
-        }
-        // else if (collectedArray[i] === '-') {
-        //   val1 = collectedArray[i - 1];
-        //   if (val1.indexOf('.') !== -1 && getButtonValue.indexOf('.') !== -1) {
-        //     val1 = parseInt(val1);
-        //     val2 = parseInt(getButtonValue);
-        //   } else {
-        //     val1 = parseFloat(val1);
-        //     val2 = parseFloat(getButtonValue);
-        //   }
-        //   result = val1 - val2;
-        // }
-        setResultValue(result);
-      }
-    }
+    setCollectedArray([...collectedArray, getButtonValue]);
   };
+
+  console.log(collectedArray);
 
   // console.log(collectedArray);
 
