@@ -6,7 +6,9 @@
   font-weight: 700;
   font-style: normal;
 } */
-
+.App {
+  height: 100vh;
+}
 .App .header-navigation {
   background: #cccccc;
   padding: 20px;
@@ -17,11 +19,15 @@
 }
 .App .header-navigation .top-bar {
   position: relative;
+  overflow-x: auto;
 }
 .App .header-navigation span.top-value {
   position: absolute;
   font-size: 18px;
   right: 5px;
+}
+.col-12,.col-4,.col-8 {
+  padding: 0 !important;
 }
 .App .header-navigation span {
   font-size: 70px;
@@ -34,6 +40,18 @@
   border: 1px solid #c1c1c1;
   outline: none;
   height: 95px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.App .button {
+  /*padding: 0 15px;*/
+}
+@media (max-width: 767px) {
+  .App .button button {
+    font-size: 25px;
+    height: 85px;
+  }
 }
 .App .button button:focus {
   outline: none;
