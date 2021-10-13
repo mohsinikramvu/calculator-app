@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useCallback, useEffect, useState} from 'react';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Button from './components/button';
@@ -6,13 +6,12 @@ import Button from './components/button';
 const App = () => {
   const [getButtonValue, setButtonValue] = useState(0);
   const [getResultantValue, setResultValue] = useState(0);
-  const [getOperatorValue, setOperatorValue] = useState(null);
   const givenArray = [];
   const [collectedArray, setCollectedArray] = useState(givenArray);
   const [copiedArr, setCopiedArr] = useState(givenArray);
   let operatorTypesArr = ['+', 'x', '/', '-', '+/-', '%'];
   const getValueFromButton = (buttonValue) => {
-    setOperatorValue(null);
+    // setOperatorValue(null);
     if (getButtonValue > 0) {
       if (getButtonValue.indexOf('.') !== -1) {
         if (buttonValue !== '.') {
@@ -33,23 +32,22 @@ const App = () => {
     setResultValue(0);
     setCollectedArray([]);
   };
-  const getOperatorFromButton = (operatorValue) => {
-    if (getButtonValue !== 0) {
-      setCollectedArray([...collectedArray,getButtonValue]);
-    }
-    setOperatorValue(operatorValue);
-    setButtonValue(0);
-  };
 
-  useEffect(() => {
-    if (getOperatorValue !== null) {
+  const getOperatorFromButton = (operatorValue) => {
+    let resultantArr;
+    if (getButtonValue !== 0) {
+      resultantArr = [...collectedArray, getButtonValue, operatorValue];
+    } else {
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
         collectedArray.pop();
       }
-      setCollectedArray([...collectedArray, getOperatorValue]);
+      resultantArr = [...collectedArray, operatorValue];
     }
-  },[getOperatorValue]);
+    setCollectedArray(resultantArr);
+    setButtonValue(0);
+    setResultValue(0);
+  };
 
   const calculate = (sign, value1, value2) => {
     let firstValue = typeof value1 === 'string' ? value1.indexOf('.') !== -1 ? parseFloat(value1) : parseInt(value1) : value1;
@@ -62,10 +60,12 @@ const App = () => {
       return firstValue - secondValue;
     } else if (sign === '/') {
       return firstValue / secondValue;
+    } else if (sign === '%') {
+      return (firstValue / 100) * secondValue;
     }
   }
 
-  const resultCalculation = (copiedArr, operator) => {
+  const resultCalculation = useCallback((copiedArr, operator) => {
     let beforeIntValue;
     let afterIntValue;
     let calculationResult;
@@ -86,41 +86,37 @@ const App = () => {
       }
     }
     return copiedArr;
-  }
+  },[]);
 
   const getAnswerFromButton = () => {
     let copiedCollectionArr;
     if (getButtonValue !== 0) {
       setCollectedArray([...collectedArray, getButtonValue]);
       copiedCollectionArr = [...collectedArray, getButtonValue];
-      console.log('If Case ==', copiedCollectionArr);
       setCopiedArr(copiedCollectionArr);
-      // result = eval(copiedCollectionArr.join(' '));
-      // setResultValue(copiedCollectionArr[0]);
     } else {
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
         collectedArray.pop();
       }
       copiedCollectionArr = [...collectedArray];
-      console.log('Else Case ==', copiedCollectionArr);
       setCopiedArr(copiedCollectionArr);
-      // result = eval(copiedCollectionArr.join(' '));
-      // setResultValue(result);
     }
     setButtonValue(0);
   };
 
   useEffect(() => {
     let result;
-    result = resultCalculation(copiedArr, '/');
+    result = resultCalculation(copiedArr, '%');
+    result = resultCalculation(result, '/');
     result = resultCalculation(result, 'x');
     result = resultCalculation(result, '+');
     result = resultCalculation(result, '-');
     if (result.length > 0) {
+      setCollectedArray(result);
       setResultValue(result[0]);
     }
-  },[copiedArr]);
+  },[copiedArr, resultCalculation]);
 
   return (
       <>
