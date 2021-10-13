@@ -11,7 +11,6 @@ const App = () => {
   const [copiedArr, setCopiedArr] = useState(givenArray);
   let operatorTypesArr = ['+', 'x', '/', '-', '+/-', '%'];
   const getValueFromButton = (buttonValue) => {
-    // setOperatorValue(null);
     if (getButtonValue > 0) {
       if (getButtonValue.indexOf('.') !== -1) {
         if (buttonValue !== '.') {
@@ -107,11 +106,38 @@ const App = () => {
 
   useEffect(() => {
     let result;
+    let foundedEle;
     result = resultCalculation(copiedArr, '%');
-    result = resultCalculation(result, '/');
-    result = resultCalculation(result, 'x');
-    result = resultCalculation(result, '+');
-    result = resultCalculation(result, '-');
+    foundedEle = result.find((ele) => ele === '%');
+    if (foundedEle) {
+      result = resultCalculation(result, '%');
+    } else {
+      result = resultCalculation(result, '/');
+    }
+    foundedEle = result.find((ele) => ele === '/');
+    if (foundedEle) {
+      result = resultCalculation(result, '/');
+    } else {
+      result = resultCalculation(result, 'x');
+    }
+    foundedEle = result.find((ele) => ele === 'x');
+    if (foundedEle) {
+      result = resultCalculation(result, 'x');
+    } else {
+      result = resultCalculation(result, '+');
+    }
+    foundedEle = result.find((ele) => ele === '+');
+    if (foundedEle) {
+      result = resultCalculation(result, '+');
+    } else {
+      result = resultCalculation(result, '-');
+    }
+    foundedEle = result.find((ele) => ele === '-');
+    if (foundedEle) {
+      result = resultCalculation(result, '-');
+    } else {
+      result = resultCalculation(result, '-');
+    }
     if (result.length > 0) {
       setCollectedArray(result);
       setResultValue(result[0]);
