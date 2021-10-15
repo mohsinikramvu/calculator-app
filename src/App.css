@@ -35,7 +35,7 @@
   /* font-family: "LCD Font"; */
 }
 .App .button button {
-  font-size: 40px;
+  font-size: 35px;
   width: 100%;
   border: 1px solid #c1c1c1;
   outline: none;
@@ -43,6 +43,9 @@
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.App .button button img {
+  max-width: 30px;
 }
 .App .button {
   /*padding: 0 15px;*/

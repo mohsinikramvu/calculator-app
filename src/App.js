@@ -2,23 +2,28 @@ import React, {useCallback, useState} from 'react';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Button from './components/button';
+import ClearIcon from './images/clear.png';
 
 const App = () => {
   const [getButtonValue, setButtonValue] = useState(0);
   const [getResultantValue, setResultValue] = useState(0);
   const givenArray = [];
   const [collectedArray, setCollectedArray] = useState(givenArray);
-  let operatorTypesArr = ['+', 'x', '/', '-', '+/-', '%'];
+  let operatorTypesArr = ['+', '÷', 'x', '-', '+/-', '%'];
   const getValueFromButton = (buttonValue) => {
     setResultValue(0);
-    if (getButtonValue > 0) {
+    let resultButtonValue = '';
+    if (getButtonValue > 0 || getButtonValue === '.') {
       if (getButtonValue.indexOf('.') !== -1) {
         if (buttonValue !== '.') {
           const getButtonsValue = getButtonValue.concat('',buttonValue);
           setButtonValue(getButtonsValue);
         }
       } else {
-        const getButtonsValue = getButtonValue.concat('',buttonValue);
+        let getButtonsValue = getButtonValue.concat('',buttonValue);
+        if (getResultantValue > 0) {
+          getButtonsValue = resultButtonValue.concat('', buttonValue);
+        }
         setButtonValue(getButtonsValue);
       }
     } else {
@@ -32,12 +37,38 @@ const App = () => {
     setCollectedArray([]);
   };
 
+  const valueToRemove = () => {
+    if (getButtonValue > 0) {
+      let str = typeof getButtonValue === 'string' ? getButtonValue : getButtonValue.toString();
+      str = str.substring(0, str.length - 1);
+      if (str === '') {
+        setButtonValue(0);
+      } else {
+        setButtonValue(str);
+      }
+    }
+    if (getResultantValue > 0) {
+      let str = typeof getResultantValue === 'string' ? getResultantValue : getResultantValue.toString();
+      str = str.substring(0, str.length - 1);
+      if (str === '') {
+        setResultValue(0);
+      } else {
+        setResultValue(str);
+      }
+    }
+  }
+
   const getOperatorFromButton = (operatorValue) => {
     let resultantArr = [];
     let result = [];
     setButtonValue(0);
     if (getButtonValue !== 0) {
+      // let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
+      // if (!operatorFound) {
+      //   setCollectedArray([])
+      // }
       resultantArr = [...collectedArray, getButtonValue];
+      console.log(resultantArr);
       if (resultantArr.length === 3) {
         result = resultCalculation(resultantArr);
         setResultValue(result[0]);
@@ -45,11 +76,11 @@ const App = () => {
         resultantArr = result;
       }
     } else {
-      resultantArr = [...collectedArray];
-      let operatorFound = operatorTypesArr.find((ele) => ele === resultantArr[resultantArr.length - 1]);
+      let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
-        resultantArr.pop();
+        collectedArray.pop();
       }
+      resultantArr = [...collectedArray];
     }
     resultantArr = [...resultantArr, operatorValue];
     setCollectedArray(resultantArr);
@@ -64,7 +95,7 @@ const App = () => {
       return firstValue + secondValue;
     } else if (sign === '-') {
       return firstValue - secondValue;
-    } else if (sign === '/') {
+    } else if (sign === '÷') {
       return firstValue / secondValue;
     } else if (sign === '%') {
       return (firstValue / 100) * secondValue;
@@ -93,23 +124,39 @@ const App = () => {
 
   const getAnswerFromButton = () => {
     let copiedCollectionArr;
-    let result;
+    let result = [];
     if (getButtonValue !== 0) {
-      setCollectedArray([...collectedArray, getButtonValue]);
-      copiedCollectionArr = [...collectedArray, getButtonValue];
-      if (copiedCollectionArr.length === 3) {
-        result = resultCalculation(copiedCollectionArr);
-        setResultValue(result[0]);
-        setCollectedArray(result);
+      let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
+      if (operatorFound) {
+        copiedCollectionArr = [...collectedArray, getButtonValue];
+        setCollectedArray(copiedCollectionArr);
+        if (copiedCollectionArr.length === 3) {
+          result = resultCalculation(copiedCollectionArr);
+          if (result.length > 0) {
+            setResultValue(result[0]);
+          }
+          setCollectedArray(result);
+        }
+      } else {
+        if (getResultantValue === 0) {
+          setResultValue(getButtonValue);
+        }
+        setCollectedArray([]);
+        // setButtonValue(0);
       }
     } else {
       copiedCollectionArr = [...collectedArray];
       let operatorFound = operatorTypesArr.find((ele) => ele === copiedCollectionArr[copiedCollectionArr.length - 1]);
       if (operatorFound) {
         copiedCollectionArr.pop();
+        console.log(copiedCollectionArr);
+        setCollectedArray(copiedCollectionArr);
+      } else {
+        setCollectedArray([]);
       }
+      setButtonValue(0);
+      // copiedCollectionArr = [...collectedArray];
     }
-    setButtonValue(0);
   };
 
   return (
@@ -143,7 +190,7 @@ const App = () => {
                   </div>
                   <div className="col-4">
                     <div className="button">
-                      <Button name="+/-" onGetValue={getOperatorFromButton}/>
+                      <Button name="img" img={<img src={ClearIcon} alt="clear icon" />} onGetValue={valueToRemove} />
                     </div>
                   </div>
                   <div className="col-4">
@@ -196,7 +243,12 @@ const App = () => {
                       <Button name="1" onGetValue={getValueFromButton} />
                     </div>
                   </div>
-                  <div className="col-8">
+                  <div className="col-4">
+                    <div className="button">
+                      <Button name="+/-" onGetValue={getOperatorFromButton}/>
+                    </div>
+                  </div>
+                  <div className="col-4">
                     <div className="button">
                       <Button name="0" onGetValue={getValueFromButton} />
                     </div>
@@ -212,7 +264,7 @@ const App = () => {
                 <div className="row">
                   <div className="col-12">
                     <div className="button">
-                      <Button name="/" onGetValue={getOperatorFromButton} />
+                      <Button name="÷" onGetValue={getOperatorFromButton} />
                     </div>
                   </div>
                   <div className="col-12">
