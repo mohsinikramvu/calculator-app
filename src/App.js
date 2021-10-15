@@ -1,4 +1,4 @@
-import React, {useCallback, useEffect, useState} from 'react';
+import React, {useCallback, useState} from 'react';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Button from './components/button';
@@ -8,9 +8,9 @@ const App = () => {
   const [getResultantValue, setResultValue] = useState(0);
   const givenArray = [];
   const [collectedArray, setCollectedArray] = useState(givenArray);
-  const [copiedArr, setCopiedArr] = useState(givenArray);
   let operatorTypesArr = ['+', 'x', '/', '-', '+/-', '%'];
   const getValueFromButton = (buttonValue) => {
+    setResultValue(0);
     if (getButtonValue > 0) {
       if (getButtonValue.indexOf('.') !== -1) {
         if (buttonValue !== '.') {
@@ -33,19 +33,26 @@ const App = () => {
   };
 
   const getOperatorFromButton = (operatorValue) => {
-    let resultantArr;
-    if (getButtonValue !== 0) {
-      resultantArr = [...collectedArray, getButtonValue, operatorValue];
-    } else {
-      let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
-      if (operatorFound) {
-        collectedArray.pop();
-      }
-      resultantArr = [...collectedArray, operatorValue];
-    }
-    setCollectedArray(resultantArr);
+    let resultantArr = [];
+    let result = [];
     setButtonValue(0);
-    setResultValue(0);
+    if (getButtonValue !== 0) {
+      resultantArr = [...collectedArray, getButtonValue];
+      if (resultantArr.length === 3) {
+        result = resultCalculation(resultantArr);
+        setResultValue(result[0]);
+        setCollectedArray(result);
+        resultantArr = result;
+      }
+    } else {
+      resultantArr = [...collectedArray];
+      let operatorFound = operatorTypesArr.find((ele) => ele === resultantArr[resultantArr.length - 1]);
+      if (operatorFound) {
+        resultantArr.pop();
+      }
+    }
+    resultantArr = [...resultantArr, operatorValue];
+    setCollectedArray(resultantArr);
   };
 
   const calculate = (sign, value1, value2) => {
@@ -64,85 +71,46 @@ const App = () => {
     }
   }
 
-  const resultCalculation = useCallback((copiedArr, operator) => {
+  const resultCalculation = useCallback((copiedArr) => {
     let beforeIntValue;
     let afterIntValue;
     let calculationResult;
     let indexOperator;
     for (let i = 0; i < copiedArr.length; i++) {
-      if (copiedArr[i] === operator) {
-        indexOperator = copiedArr.indexOf(copiedArr[i]);
-        beforeIntValue = copiedArr[indexOperator - 1];
-        afterIntValue = copiedArr[indexOperator + 1];
-        calculationResult = calculate(copiedArr[i], beforeIntValue, afterIntValue);
-        console.log(calculationResult, beforeIntValue);
-        let resultantFoundIndexBefore = copiedArr.indexOf(beforeIntValue);
-        if (resultantFoundIndexBefore > -1) {
-          copiedArr[resultantFoundIndexBefore] = calculationResult;
-        }
-        copiedArr.splice(resultantFoundIndexBefore + 1, 1);
-        copiedArr.splice(resultantFoundIndexBefore + 1, 1);
+      indexOperator = copiedArr.indexOf(copiedArr[i + 1]);
+      beforeIntValue = copiedArr[indexOperator - 1];
+      afterIntValue = copiedArr[indexOperator + 1];
+      calculationResult = calculate(copiedArr[i + 1], beforeIntValue, afterIntValue);
+      let resultantFoundIndexBefore = copiedArr.indexOf(beforeIntValue);
+      if (resultantFoundIndexBefore > -1) {
+        copiedArr[resultantFoundIndexBefore] = calculationResult;
       }
+      copiedArr.splice(resultantFoundIndexBefore + 1, 1);
+      copiedArr.splice(resultantFoundIndexBefore + 1, 1);
     }
     return copiedArr;
   },[]);
 
   const getAnswerFromButton = () => {
     let copiedCollectionArr;
+    let result;
     if (getButtonValue !== 0) {
       setCollectedArray([...collectedArray, getButtonValue]);
       copiedCollectionArr = [...collectedArray, getButtonValue];
-      setCopiedArr(copiedCollectionArr);
-    } else {
-      let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
-      if (operatorFound) {
-        collectedArray.pop();
+      if (copiedCollectionArr.length === 3) {
+        result = resultCalculation(copiedCollectionArr);
+        setResultValue(result[0]);
+        setCollectedArray(result);
       }
+    } else {
       copiedCollectionArr = [...collectedArray];
-      setCopiedArr(copiedCollectionArr);
+      let operatorFound = operatorTypesArr.find((ele) => ele === copiedCollectionArr[copiedCollectionArr.length - 1]);
+      if (operatorFound) {
+        copiedCollectionArr.pop();
+      }
     }
     setButtonValue(0);
   };
-
-  useEffect(() => {
-    let result;
-    let foundedEle;
-    result = resultCalculation(copiedArr, '%');
-    foundedEle = result.find((ele) => ele === '%');
-    if (foundedEle) {
-      result = resultCalculation(result, '%');
-    } else {
-      result = resultCalculation(result, '/');
-    }
-    foundedEle = result.find((ele) => ele === '/');
-    if (foundedEle) {
-      result = resultCalculation(result, '/');
-    } else {
-      result = resultCalculation(result, 'x');
-    }
-    foundedEle = result.find((ele) => ele === 'x');
-    if (foundedEle) {
-      result = resultCalculation(result, 'x');
-    } else {
-      result = resultCalculation(result, '+');
-    }
-    foundedEle = result.find((ele) => ele === '+');
-    if (foundedEle) {
-      result = resultCalculation(result, '+');
-    } else {
-      result = resultCalculation(result, '-');
-    }
-    foundedEle = result.find((ele) => ele === '-');
-    if (foundedEle) {
-      result = resultCalculation(result, '-');
-    } else {
-      result = resultCalculation(result, '-');
-    }
-    if (result.length > 0) {
-      setCollectedArray(result);
-      setResultValue(result[0]);
-    }
-  },[copiedArr, resultCalculation]);
 
   return (
       <>
