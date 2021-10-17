@@ -20,6 +20,9 @@
   justify-content: flex-end;
   align-items: flex-end;
 }
+.acButton button {
+  font-size: 21px !important;
+}
 .App .header-navigation .top-bar {
   position: relative;
   overflow-x: auto;
@@ -65,7 +68,10 @@
 @media (max-width: 767px) {
   .App .button button {
     font-size: 25px;
-    height: 85px;
+    /*height: 85px;*/
+  }
+  .App .button button img {
+    max-width: 22px;
   }
 }
 .App .button button:focus {

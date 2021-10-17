@@ -190,7 +190,7 @@ const App = () => {
               <div className="col-9">
                 <div className="row height-100">
                   <div className="col-4">
-                    <div className="button height-100">
+                    <div className="button height-100 acButton">
                       <Button name="AC" onGetValue={valueToClear}/>
                     </div>
                   </div>
