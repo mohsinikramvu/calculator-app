@@ -67,7 +67,11 @@ const App = () => {
       // if (!operatorFound) {
       //   setCollectedArray([])
       // }
-      resultantArr = [...collectedArray, getButtonValue];
+      if (getResultantValue !== 0) {
+        resultantArr = [...collectedArray, getResultantValue];
+      } else {
+        resultantArr = [...collectedArray, getButtonValue];
+      }
       console.log(resultantArr);
       if (resultantArr.length === 3) {
         result = resultCalculation(resultantArr);
@@ -126,6 +130,7 @@ const App = () => {
     let copiedCollectionArr;
     let result = [];
     if (getButtonValue !== 0) {
+      console.log('Mohsin');
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
         copiedCollectionArr = [...collectedArray, getButtonValue];
@@ -145,6 +150,7 @@ const App = () => {
         // setButtonValue(0);
       }
     } else {
+      console.log('Ahsan');
       copiedCollectionArr = [...collectedArray];
       let operatorFound = operatorTypesArr.find((ele) => ele === copiedCollectionArr[copiedCollectionArr.length - 1]);
       if (operatorFound) {
