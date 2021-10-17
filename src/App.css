@@ -14,8 +14,11 @@
   padding: 20px;
   width: 100%;
   text-align: right;
-  height: auto;
+  /*height: auto;*/
   overflow: hidden;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
 }
 .App .header-navigation .top-bar {
   position: relative;
@@ -25,6 +28,15 @@
   position: absolute;
   font-size: 18px;
   right: 5px;
+}
+.height-100 {
+  height: 100%;
+}
+.height-60 {
+  height: 60%;
+}
+.height-40 {
+  height: 40%;
 }
 .col-12,.col-4,.col-8 {
   padding: 0 !important;
@@ -39,7 +51,7 @@
   width: 100%;
   border: 1px solid #c1c1c1;
   outline: none;
-  height: 95px;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;

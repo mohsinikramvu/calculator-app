@@ -168,10 +168,10 @@ const App = () => {
   return (
       <>
         <div className="App">
-          <div className="container">
-            <div className="row">
+          <div className="container height-100">
+            <div className="row height-40">
               <div className="col-12">
-                <div className="header-navigation">
+                <div className="header-navigation height-100">
                   <div className="top-bar">
                     {
                       collectedArray.length > 0 ?
@@ -186,110 +186,110 @@ const App = () => {
                 </div>
               </div>
             </div>
-            <div className="row">
+            <div className="row height-60">
               <div className="col-9">
-                <div className="row">
+                <div className="row height-100">
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="AC" onGetValue={valueToClear}/>
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="img" img={<img src={ClearIcon} alt="clear icon" />} onGetValue={valueToRemove} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="%" onGetValue={getOperatorFromButton}/>
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="9" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="8" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="7" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="6" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="5" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="4" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="3" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="2" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="1" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="+/-" onGetValue={getOperatorFromButton}/>
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="0" onGetValue={getValueFromButton} />
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="." onGetValue={getValueFromButton} />
                     </div>
                   </div>
                 </div>
               </div>
               <div className="col-3">
-                <div className="row">
+                <div className="row height-100">
                   <div className="col-12">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="÷" onGetValue={getOperatorFromButton} />
                     </div>
                   </div>
                   <div className="col-12">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="x" onGetValue={getOperatorFromButton} />
                     </div>
                   </div>
                   <div className="col-12">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="-" onGetValue={getOperatorFromButton} />
                     </div>
                   </div>
                   <div className="col-12">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="+" onGetValue={getOperatorFromButton} />
                     </div>
                   </div>
                   <div className="col-12">
-                    <div className="button">
+                    <div className="button height-100">
                       <Button name="=" onGetValue={getAnswerFromButton} />
                     </div>
                   </div>
