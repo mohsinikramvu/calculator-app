@@ -13,16 +13,20 @@ const App = () => {
   const getValueFromButton = (buttonValue) => {
     setResultValue(0);
     let resultButtonValue = '';
-    if (getButtonValue > 0 || getButtonValue === '.') {
+    if (getButtonValue > 0 || (typeof getButtonValue === 'string' && getButtonValue === '.')) {
       if (getButtonValue.indexOf('.') !== -1) {
         if (buttonValue !== '.') {
           const getButtonsValue = getButtonValue.concat('',buttonValue);
           setButtonValue(getButtonsValue);
         }
       } else {
-        let getButtonsValue = getButtonValue.concat('',buttonValue);
+        let getButtonsValue = '';
         if (getResultantValue > 0) {
+          // console.log("Called");
           getButtonsValue = resultButtonValue.concat('', buttonValue);
+        } else {
+          // console.log("Else");
+          getButtonsValue = getButtonValue.concat('',buttonValue)
         }
         setButtonValue(getButtonsValue);
       }
@@ -57,12 +61,12 @@ const App = () => {
       }
     }
   }
-
   const getOperatorFromButton = (operatorValue) => {
     let resultantArr = [];
     let result = [];
     setButtonValue(0);
-    if (getButtonValue !== 0) {
+    setResultValue(0);
+    if (getButtonValue !== 0 || getResultantValue !== 0) {
       // let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       // if (!operatorFound) {
       //   setCollectedArray([])
@@ -72,12 +76,12 @@ const App = () => {
       } else {
         resultantArr = [...collectedArray, getButtonValue];
       }
-      console.log(resultantArr);
+      // console.log(resultantArr);
       if (resultantArr.length === 3) {
         result = resultCalculation(resultantArr);
         setResultValue(result[0]);
         setCollectedArray(result);
-        resultantArr = result;
+        // resultantArr = result;
       }
     } else {
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
@@ -130,7 +134,7 @@ const App = () => {
     let copiedCollectionArr;
     let result = [];
     if (getButtonValue !== 0) {
-      console.log('Mohsin');
+      // console.log('Mohsin');
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
         copiedCollectionArr = [...collectedArray, getButtonValue];
@@ -139,6 +143,7 @@ const App = () => {
           result = resultCalculation(copiedCollectionArr);
           if (result.length > 0) {
             setResultValue(result[0]);
+            setButtonValue(result[0]);
           }
           setCollectedArray(result);
         }
@@ -150,12 +155,12 @@ const App = () => {
         // setButtonValue(0);
       }
     } else {
-      console.log('Ahsan');
+      // console.log('Ahsan');
       copiedCollectionArr = [...collectedArray];
       let operatorFound = operatorTypesArr.find((ele) => ele === copiedCollectionArr[copiedCollectionArr.length - 1]);
       if (operatorFound) {
         copiedCollectionArr.pop();
-        console.log(copiedCollectionArr);
+        // console.log(copiedCollectionArr);
         setCollectedArray(copiedCollectionArr);
       } else {
         setCollectedArray([]);
@@ -164,7 +169,9 @@ const App = () => {
       // copiedCollectionArr = [...collectedArray];
     }
   };
-
+  console.log('Button Value',getButtonValue);
+  console.log('Resultant Value',getResultantValue);
+  console.log('Array',collectedArray);
   return (
       <>
         <div className="App">
@@ -175,7 +182,7 @@ const App = () => {
                   <div className="top-bar">
                     {
                       collectedArray.length > 0 ?
-                          <span className="top-value">{collectedArray}</span> : null
+                          <div className="top-value">{collectedArray.join(' ')}</div> : null
                     }
                     {
                       getResultantValue !== 0 ?

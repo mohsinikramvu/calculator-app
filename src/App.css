@@ -27,6 +27,9 @@
   position: relative;
   overflow-x: auto;
 }
+.top-value {
+  color: white;
+}
 .App .header-navigation span.top-value {
   position: absolute;
   font-size: 18px;
