@@ -20,9 +20,6 @@
   justify-content: flex-end;
   align-items: flex-end;
 }
-.acButton button {
-  font-size: 21px !important;
-}
 .App .header-navigation .top-bar {
   position: relative;
   overflow-x: auto;
@@ -30,6 +27,9 @@
 .top-value {
   color: white;
 }
+/*.acButton button {*/
+/*  font-size: 21px !important;*/
+/*}*/
 .App .header-navigation span.top-value {
   position: absolute;
   font-size: 18px;
@@ -52,7 +52,8 @@
   color: #fff;
   /* font-family: "LCD Font"; */
 }
-.App .button button {
+.App .button button,
+.acButton button {
   font-size: 35px;
   width: 100%;
   border: 1px solid #c1c1c1;
@@ -72,6 +73,9 @@
   .App .button button {
     font-size: 25px;
     /*height: 85px;*/
+  }
+  .acButton button {
+    font-size: 21px !important;
   }
   .App .button button img {
     max-width: 22px;

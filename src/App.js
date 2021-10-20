@@ -9,9 +9,11 @@ const App = () => {
   const [getResultantValue, setResultValue] = useState(0);
   const givenArray = [];
   const [collectedArray, setCollectedArray] = useState(givenArray);
+  const [resultBoolean, setResult] = useState(false);
   let operatorTypesArr = ['+', '÷', 'x', '-', '+/-', '%'];
   const getValueFromButton = (buttonValue) => {
     setResultValue(0);
+    setResult(true);
     let resultButtonValue = '';
     if (getButtonValue > 0 || (typeof getButtonValue === 'string' && getButtonValue === '.')) {
       if (getButtonValue.indexOf('.') !== -1) {
@@ -22,10 +24,8 @@ const App = () => {
       } else {
         let getButtonsValue = '';
         if (getResultantValue > 0) {
-          // console.log("Called");
           getButtonsValue = resultButtonValue.concat('', buttonValue);
         } else {
-          // console.log("Else");
           getButtonsValue = getButtonValue.concat('',buttonValue)
         }
         setButtonValue(getButtonsValue);
@@ -64,26 +64,27 @@ const App = () => {
   const getOperatorFromButton = (operatorValue) => {
     let resultantArr = [];
     let result = [];
+    console.log(resultBoolean, 'Resultant Button Boolean');
     setButtonValue(0);
     setResultValue(0);
-    if (getButtonValue !== 0 || getResultantValue !== 0) {
-      // let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
-      // if (!operatorFound) {
-      //   setCollectedArray([])
-      // }
-      if (getResultantValue !== 0) {
-        resultantArr = [...collectedArray, getResultantValue];
-      } else {
-        resultantArr = [...collectedArray, getButtonValue];
-      }
-      // console.log(resultantArr);
+    if (getButtonValue !== 0 && resultBoolean) {
+      resultantArr = [...collectedArray, getButtonValue];
       if (resultantArr.length === 3) {
         result = resultCalculation(resultantArr);
         setResultValue(result[0]);
         setCollectedArray(result);
-        // resultantArr = result;
+        setResult(false);
+      }
+    } else if (getResultantValue !== 0) {
+      resultantArr = [...resultantArr, getResultantValue];
+      if (resultantArr.length === 3) {
+        result = resultCalculation(resultantArr);
+        setResultValue(result[0]);
+        setCollectedArray(result);
+        setResult(false);
       }
     } else {
+      console.log("Else Case");
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
         collectedArray.pop();
@@ -134,7 +135,6 @@ const App = () => {
     let copiedCollectionArr;
     let result = [];
     if (getButtonValue !== 0) {
-      // console.log('Mohsin');
       let operatorFound = operatorTypesArr.find((ele) => ele === collectedArray[collectedArray.length - 1]);
       if (operatorFound) {
         copiedCollectionArr = [...collectedArray, getButtonValue];
@@ -143,35 +143,27 @@ const App = () => {
           result = resultCalculation(copiedCollectionArr);
           if (result.length > 0) {
             setResultValue(result[0]);
-            setButtonValue(result[0]);
+            setButtonValue(0);
           }
-          setCollectedArray(result);
+          setCollectedArray([]);
         }
       } else {
         if (getResultantValue === 0) {
           setResultValue(getButtonValue);
         }
         setCollectedArray([]);
-        // setButtonValue(0);
       }
     } else {
-      // console.log('Ahsan');
       copiedCollectionArr = [...collectedArray];
       let operatorFound = operatorTypesArr.find((ele) => ele === copiedCollectionArr[copiedCollectionArr.length - 1]);
       if (operatorFound) {
         copiedCollectionArr.pop();
-        // console.log(copiedCollectionArr);
-        setCollectedArray(copiedCollectionArr);
-      } else {
+        setResultValue(copiedCollectionArr[0]);
         setCollectedArray([]);
       }
       setButtonValue(0);
-      // copiedCollectionArr = [...collectedArray];
     }
   };
-  console.log('Button Value',getButtonValue);
-  console.log('Resultant Value',getResultantValue);
-  console.log('Array',collectedArray);
   return (
       <>
         <div className="App">
@@ -258,7 +250,7 @@ const App = () => {
                   </div>
                   <div className="col-4">
                     <div className="button height-100">
-                      <Button name="+/-" onGetValue={getOperatorFromButton}/>
+                      <Button name="00" onGetValue={getValueFromButton}/>
                     </div>
                   </div>
                   <div className="col-4">
