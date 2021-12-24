@@ -63,7 +63,7 @@ const App = () => {
   }
   const getOperatorFromButton = (operatorValue) => {
     let resultantArr = [];
-    let result = [];
+    let result = []; 
     console.log(resultBoolean, 'Resultant Button Boolean');
     setButtonValue(0);
     setResultValue(0);
