@@ -1,8 +1,10 @@
 import React, {useCallback, useState} from 'react';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
-import Button from './components/button';
+import Button from './components/Button';
 import ClearIcon from './images/clear.png';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faWindowClose } from '@fortawesome/free-regular-svg-icons';
 
 const App = () => {
   const [getButtonValue, setButtonValue] = useState(0);
@@ -11,6 +13,8 @@ const App = () => {
   const [collectedArray, setCollectedArray] = useState(givenArray);
   const [resultBoolean, setResult] = useState(false);
   let operatorTypesArr = ['+', '÷', 'x', '-', '+/-', '%'];
+  const element = <FontAwesomeIcon icon={faWindowClose} />;
+
   const getValueFromButton = (buttonValue) => {
     setResultValue(0);
     setResult(true);
@@ -94,7 +98,6 @@ const App = () => {
     resultantArr = [...resultantArr, operatorValue];
     setCollectedArray(resultantArr);
   };
-
   const calculate = (sign, value1, value2) => {
     let firstValue = typeof value1 === 'string' ? value1.indexOf('.') !== -1 ? parseFloat(value1) : parseInt(value1) : value1;
     let secondValue = typeof value2 === 'string' ? value2.indexOf('.') !== -1 ? parseFloat(value2) : parseInt(value2) : value2;
@@ -194,8 +197,8 @@ const App = () => {
                     </div>
                   </div>
                   <div className="col-4">
-                    <div className="button height-100">
-                      <Button name="img" img={<img src={ClearIcon} alt="clear icon" />} onGetValue={valueToRemove} />
+                    <div className="button height-100 backspaceButton">
+                      <Button name="img" img={element} onGetValue={valueToRemove} />
                     </div>
                   </div>
                   <div className="col-4">
