@@ -2,7 +2,6 @@ import React, {useCallback, useState} from 'react';
 import './App.css';
 import '../node_modules/bootstrap/dist/css/bootstrap.min.css';
 import Button from './components/Button';
-import ClearIcon from './images/clear.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faWindowClose } from '@fortawesome/free-regular-svg-icons';
 
